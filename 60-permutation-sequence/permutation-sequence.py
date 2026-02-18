@@ -1,20 +1,20 @@
-class Solution:
-    def getPermutation(self, n: int, k: int) -> str:
+class Solution(object):
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        nums = map(str, xrange(1,10))
+        perm = ''
+        k , factorial = k-1, 1
+        for i in xrange(1, n):
+            factorial *= i
 
-        def fact(num):
-            if num < 3:
-                return num
-            return fact(num - 1) * num
-
-        s = []
-        k -= 1
-        val = [str(i) for i in range(1, n + 1)]
-        while n > 1:
-            curid = k // fact(n - 1)
-            curval = val[curid]
-            val.remove(curval)
-            s.append(curval)
-            k -= (fact(n - 1) * curid)
-            n -= 1
-        s.append(val[0])
-        return "".join(s)
+        for i in xrange(n):
+            index = k / factorial
+            k = k % factorial
+            factorial = factorial / (n-1-i) if n-1-i else 1
+            perm += nums[index]
+            del nums[index]
+        return perm 
